@@ -1,32 +1,56 @@
-"use client"
-import { Box, Button, Flex, Link, Text } from "@chakra-ui/react";
-import { LuExternalLink, LuTrash2 } from "react-icons/lu";
-import type { ListarArchivosProps } from "./type/ListarArchivosProps";
+import { Box, EmptyState, Spinner, Text, VStack } from "@chakra-ui/react";
+import { LuShoppingCart } from "react-icons/lu";
+import { CardArchivos } from "./CardArchivo";
+import { useAws } from "./context/AwsProvider";
 
-export const ListarArchivos = (({ data, eliminar }: ListarArchivosProps) => {
+export default function ListarArchivos() {
+
+    const { loading2, detalle } = useAws();
 
     return (
+        <Box w="2xl" m={"auto"} flex={1}>
+            {
+                loading2 ?
+                    <VStack colorPalette="" mt={20}>
+                        <Spinner color="colorPalette.600" />
+                        <Text color="colorPalette.600" fontWeight="semibold" >Listando...</Text>
+                    </VStack>
+                    :
+                    <>
+                        {
+                            detalle.length == 0 ?
+                                <>
+                                    <EmptyState.Root>
+                                        <EmptyState.Content>
+                                            <EmptyState.Indicator>
+                                                <LuShoppingCart />
+                                            </EmptyState.Indicator>
+                                            <VStack textAlign="center">
+                                                <EmptyState.Title>No hay datos a mostrar</EmptyState.Title>
+                                                <EmptyState.Description>
+                                                    Registre un usuario para listar
+                                                </EmptyState.Description>
+                                            </VStack>
+                                        </EmptyState.Content>
+                                    </EmptyState.Root>
+                                </>
+                                :
+                                <>
+                                    <Box pl={5}>
+                                        <Text fontSize="small" color="gray.500" fontStyle="italic" >{detalle.length} elementos</Text>
+                                    </Box>
+                                    {
 
-        <Box border={1} boxShadow="sm" m={5} p={5}>
-            <Box>
-                <Flex justifyContent="space-between">
-                    <Text fontWeight="semibold">Nombre: {data?.nombre}</Text>
-                    <Button size={"xs"} rounded="full" variant="ghost" onClick={() => eliminar(data.id)} ><LuTrash2 /></Button>
-                </Flex>
-                <Text fontWeight="semibold">Apellido: {data?.apellido}</Text>
-                <Text fontWeight="semibold">Archivo: {""}
-                    <Link
-                        variant="underline"
-                        href={data.link}
-                        colorPalette="teal"
-                        target="_blank"
-                    >
-                        {data?.fileName}
-                        <LuExternalLink />
-                    </Link>
-                </Text>
-            </Box>
+                                        detalle.map((item, index) => (
+                                            // <Box><Text>{item.apellido}</Text></Box>
+                                            <CardArchivos key={item.id} data={item} />
+                                        ))
+                                    }
+                                </>
+                        }
+
+                    </>
+            }
         </Box>
-
     )
-});
+}
