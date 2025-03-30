@@ -1,11 +1,22 @@
 import { Box, Button, Field, FileUpload, Input, Stack, Text } from "@chakra-ui/react";
 import { HiUpload } from "react-icons/hi";
-import { ChangeEvent } from "react";
+import { ChangeEvent, useEffect, useMemo, useRef, useState } from "react";
 import { useAws } from "./context/AwsProvider";
 
 export default function FormularioAws() {
 
     const { form, loading, setForm, handleForm } = useAws();
+
+    const [resetKey, setResetKey] = useState(0);
+
+
+    useEffect(() => {
+        if (form.archivo == null) {
+            setResetKey((prev) => prev + 1);
+        }
+    }, [form.archivo]);
+
+
 
     return (
         <Box>
@@ -27,7 +38,11 @@ export default function FormularioAws() {
                     <Box>
                         <Field.Root>
 
-                            <FileUpload.Root onChange={(e: ChangeEvent<HTMLInputElement>) => setForm({ ...form, archivo: e.target.files![0] })}>
+                            <FileUpload.Root maxFileSize={1000000}
+                                accept={["image/png", "application/pdf"]}
+                                required
+                                key={resetKey}
+                                onChange={(e: ChangeEvent<HTMLInputElement>) => setForm({ ...form, archivo: e.target.files![0] })}>
                                 <FileUpload.Label>Archivo S3</FileUpload.Label>
                                 <FileUpload.HiddenInput />
                                 <FileUpload.Trigger asChild>
@@ -35,7 +50,7 @@ export default function FormularioAws() {
                                         <HiUpload />Cargar archivo
                                     </Button>
                                 </FileUpload.Trigger>
-
+                                <FileUpload.List showSize clearable={true} />
                             </FileUpload.Root>
 
                         </Field.Root>

@@ -11,9 +11,7 @@ export function AwsProvider({ children }: { children: ReactNode }) {
 
     const { loading2, detalle, listarDetalle, form, loading, setForm, handleForm, eliminar } = useAwsHook();
 
-    useEffect(() => {
-        console.log("iniciando todo");
-        
+    useEffect(() => {        
         listarDetalle();
     }, [])
 
