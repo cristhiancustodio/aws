@@ -15,11 +15,11 @@ import { ColorModeProvider } from './components/ui/color-mode';
 
 
 const cognitoAuthConfig = {
-	authority: "https://cognito-idp.us-east-1.amazonaws.com/us-east-1_GVHmDiDks",
-	client_id: "1riqa4eldct3ivachpuvsjkgb8",
-	redirect_uri: "https://d84l1y8p4kdic.cloudfront.net",
-	response_type: "code",
-	scope: "email openid phone",
+	authority: '',
+	client_id: '',
+	redirect_uri: '',
+	response_type: '',
+	scope: '',
 };
 
 
