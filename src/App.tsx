@@ -2,6 +2,7 @@ import AWS from "./pages/aws/SubiendoArchivos"
 import Billetera from "./pages/Billetera"
 import { BilleteraProvider } from "./pages/Billetera/Context/BilleteraProvider"
 import Ventas from "./pages/Ventas"
+import PracticaZustand from "./pages/zustand/PracticaZustand"
 import GeneradorArchivos from "./routes/GeneradorArchivos"
 import Login from "./routes/Login"
 
@@ -14,8 +15,12 @@ function App() {
 			<Billetera></Billetera>
 		</BilleteraProvider>
 	)*/
+	// return (
+	// 	<AWS></AWS>
+	// )
+
 	return (
-		<AWS></AWS>
+		<PracticaZustand />
 	)
 }
 export default App
