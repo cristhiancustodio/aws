@@ -56,12 +56,18 @@ export const useAwsHook = () => {
         }
     }
     const listarDetalle = async () => {
-        setLoading2(true);
-        const res = await api_client.get("listar");
-        if (res) {
-            setDetalle(res.data.data);
+        try {
+            setLoading2(true);
+            const res = await api_client.get("listar");
+            if (res) {
+                setDetalle(res.data.data);
+            }
+        } catch (error) {
+
+        } finally {
+
+            setLoading2(false);
         }
-        setLoading2(false);
 
     }
     const handleForm = async () => {
